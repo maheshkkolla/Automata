@@ -1,5 +1,5 @@
 var assert = require("chai").assert;
-var dfaGenerator = require("../src/dfaGenerator");
+var DfaGenerator = require("../src/dfaGenerator");
 
 describe("DFA Generator", function() {
 	it("generates DFA that ends with 0", function() {
@@ -13,7 +13,7 @@ describe("DFA Generator", function() {
 			initialState: "q1",
 			finalStates: ["q2"]
 		};
-		var dfa = dfaGenerator.generate(tuples);
+		var dfa = new DfaGenerator().generate(tuples);
 		assert.isTrue(dfa.isInLaguage(1110));
 		assert.isFalse(dfa.isInLaguage(111));
 	});
