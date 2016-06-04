@@ -1,5 +1,6 @@
 {
 	"errors": {
-		"initialState": "Initial state is not in given states"
+		"initialState": "Given initial state is not in states",
+		"finalState": "Given some of the final states are not in states"
 	}
 }

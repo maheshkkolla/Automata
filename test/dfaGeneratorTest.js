@@ -38,4 +38,20 @@ describe("DFA Generator edge cases", function() {
 		var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
 		expect(generator).to.throw(config.errors.initialState);
 	});
+
+	it("throws error when final states is not in given states", function() {
+		var tuples = {
+			states: ["q1", "q2"],
+			alphabets: ["1", "0"],
+			transitionTable: { 
+				"q1": { 0: "q2", 1: "q1"},
+				"q2": { 0: "q2", 1: "q1"} 
+			},
+			initialState: "q1",
+			finalStates: ["q1", "q4"]
+		};
+		var dfaGenerator = new DfaGenerator();
+		var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+		expect(generator).to.throw(config.errors.finalState);
+	});
 });

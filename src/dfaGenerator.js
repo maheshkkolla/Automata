@@ -5,12 +5,30 @@ module.exports = DfaGenerator;
 
 DfaGenerator.prototype = {
 	generate: function(tuples) {
-		this.validate(tuples);
+		this.tuples = tuples;
+		this.validate();
 		return new Dfa(tuples.states, tuples.alphabets, tuples.transitionTable, tuples.initialState, tuples.finalStates);
 	},
 
-	validate: function(tuples) {
-		if(tuples.states.indexOf(tuples.initialState) < 0) throw new Error(config.errors.initialState);
+	validate: function() {
+		var self = this;
+		[this.validateInitialState, this.validateFinalStates].forEach(function(validation) {
+			validation.apply(self);
+		});
+	},
+
+	validateInitialState: function() {
+		var tuples = this.tuples;
+		if(tuples.states.indexOf(tuples.initialState) < 0) 
+			throw new Error(config.errors.initialState);
+	},
+
+	validateFinalStates: function() {
+		var tuples = this.tuples;
+		var allIn = tuples.finalStates.every(function(finalState) {
+			return(tuples.states.indexOf(finalState) > 0);
+		});
+		if(!allIn) throw new Error(config.errors.finalState);
 	}
 }
 
