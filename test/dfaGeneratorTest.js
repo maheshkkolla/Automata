@@ -6,7 +6,7 @@ describe("DFA Generator", function() {
 		var tuples = {
 			states: ["q1", "q2"],
 			alphabets: ["1", "0"],
-			transitionFunction: { 
+			transitionTable: { 
 				"q1": { 0: "q2", 1: "q1"},
 				"q2": { 0: "q2", 1: "q1"} 
 			},

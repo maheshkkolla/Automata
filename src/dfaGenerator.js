@@ -4,7 +4,7 @@ module.exports = DfaGenerator;
 
 DfaGenerator.prototype = {
 	generate: function(tuples) {
-		return new Dfa(tuples.states, tuples.alphabets, tuples.transitionFunction, tuples.initialState, tuples.finalStates);
+		return new Dfa(tuples.states, tuples.alphabets, tuples.transitionTable, tuples.initialState, tuples.finalStates);
 	}
 }
 
