@@ -53,4 +53,35 @@ describe("Validation Rules", function() {
 			expect(rule.errorMessage).to.equal(config.errors.finalState);
 		});
 	});	
+
+	describe("Trasition Table States Rule", function() { 
+		it("should tell that given trasition table have links from all given states", function() { 
+			var rule = new validationRules.TrasitionTableStatesRule();
+			var tuples = {
+				states: ["q1", "q2"],
+				transitionTable: {
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2", 1: "q1"}
+				}
+			};
+			expect(rule.isValid(tuples)).to.be.true;
+		});
+
+		it("should tell that given trasition table does not have links from all given states", function() { 
+			var rule = new validationRules.TrasitionTableStatesRule();
+			var tuples = {
+				states: ["q1", "q2", "q3"],
+				transitionTable: {
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2", 1: "q1"}
+				}
+			};
+			expect(rule.isValid(tuples)).to.be.false;
+		});
+
+		it("should give the error message for in valid transition table states", function() {
+			var rule = new validationRules.TrasitionTableStatesRule();
+			expect(rule.errorMessage).to.equal(config.errors.trasitionTableStates);
+		});
+	});
 });

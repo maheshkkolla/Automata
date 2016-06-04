@@ -54,5 +54,21 @@ describe("DFA Generator", function() {
 			var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
 			expect(generator).to.throw(config.errors.finalState);
 		});
+
+		it("throws error when there are no enough links in transition table", function() {
+			var tuples = {
+				states: ["q1", "q2", "q3"],
+				alphabets: ["1", "0"],
+				transitionTable: { 
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2", 1: "q1"} 
+				},
+				initialState: "q1",
+				finalStates: ["q1"]
+			};
+			var dfaGenerator = new DfaGenerator();
+			var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+			expect(generator).to.throw(config.errors.trasitionTableStates);
+		});
 	});
 });
