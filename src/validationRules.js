@@ -43,13 +43,30 @@ TransitionTableAlphabetsRule.prototype = {
 	}
 };
 
+var TransitionTableResultStateRule = function() {
+	this.errorMessage = config.errors.transitionTableResultState;
+};
+
+TransitionTableResultStateRule.prototype = {
+	isValid: function(tuples) {
+		var transitionTableStates = Object.keys(tuples.transitionTable);
+		return transitionTableStates.every(function(state) { 
+			var alphabets = Object.keys(tuples.transitionTable[state]);
+			return alphabets.every(function(alphabet) {
+				return _utils.contains(tuples.states, tuples.transitionTable[state][alphabet]);
+			});
+		});
+	}
+};
+
 
 var getAllRules = function() {
 	return [
 		new InitialStateRule(),
 		new FinalStatesRule(),
 		new TransitionTableStatesRule(),
-		new TransitionTableAlphabetsRule()
+		new TransitionTableAlphabetsRule(),
+		new TransitionTableResultStateRule()
 	];
 };
 
@@ -58,5 +75,6 @@ module.exports =  {
 	FinalStatesRule: FinalStatesRule,
 	TransitionTableStatesRule: TransitionTableStatesRule,
 	TransitionTableAlphabetsRule: TransitionTableAlphabetsRule,
+	TransitionTableResultStateRule: TransitionTableResultStateRule,
 	all: getAllRules
 };

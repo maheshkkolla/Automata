@@ -3,6 +3,7 @@
 		"initialState": "Given initial state is not in states",
 		"finalState": "Given some of the final states are not in states",
 		"transitionTableStates": "Given transition table does not have links from all states",
-		"transitionTableAlphabets": "Given transition table does not have links for all alphabets"
+		"transitionTableAlphabets": "Given transition table does not have links for all alphabets",
+		"transitionTableResultState": "Given transition table result states are not in states"
 	}
 }

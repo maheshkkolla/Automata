@@ -55,7 +55,7 @@ describe("DFA Generator", function() {
 			expect(generator).to.throw(config.errors.finalState);
 		});
 
-		it("throws error when there are no enough links in transition table", function() {
+		it("throws error when there are no enough links for states in transition table", function() {
 			var tuples = {
 				states: ["q1", "q2", "q3"],
 				alphabets: ["1", "0"],
@@ -70,5 +70,39 @@ describe("DFA Generator", function() {
 			var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
 			expect(generator).to.throw(config.errors.trasitionTableStates);
 		});
+
+		it("throws error when there are no enough links for alphabets in transition table", function() {
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["1", "0"],
+				transitionTable: { 
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2"} 
+				},
+				initialState: "q1",
+				finalStates: ["q1"]
+			};
+			var dfaGenerator = new DfaGenerator();
+			var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+			expect(generator).to.throw(config.errors.transitionTableAlphabets);
+		});
+
+		it("throws error when the result states of transition table are not present", function() {
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["1", "0"],
+				transitionTable: { 
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2", 1: "q5"} 
+				},
+				initialState: "q1",
+				finalStates: ["q1"]
+			};
+			var dfaGenerator = new DfaGenerator();
+			var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+			expect(generator).to.throw(config.errors.transitionTableResultState);
+		});
+
+
 	});
 });

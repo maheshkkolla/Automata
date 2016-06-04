@@ -117,4 +117,37 @@ describe("Validation Rules", function() {
 			expect(rule.errorMessage).to.equal(config.errors.transitionTableAlphabets);
 		});
 	});
+
+	describe("Transition Table Result State Rule", function() {
+		it("should tell that given transition table all result states are in given states", function() {
+			var rule = new validationRules.TransitionTableResultStateRule();
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["1", "0"],
+				transitionTable: {
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2", 1: "q1"}
+				}
+			};
+			expect(rule.isValid(tuples)).to.be.true;
+		});
+
+		it("should tell that given transition table all result states are not in given states", function() {
+			var rule = new validationRules.TransitionTableResultStateRule();
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["1", "0"],
+				transitionTable: {
+					"q1": { 0: "q2", 1: "q4"},
+					"q2": { 0: "q2", 1: "q1"}
+				}
+			};
+			expect(rule.isValid(tuples)).to.be.false;
+		});
+
+		it("should give the error message for transition table result states not in given states", function() {
+			var rule = new validationRules.TransitionTableResultStateRule();
+			expect(rule.errorMessage).to.equal(config.errors.transitionTableResultState);
+		});
+	});
 });
