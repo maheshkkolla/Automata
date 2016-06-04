@@ -20,6 +20,25 @@ describe("DFA Generator", function() {
 			expect(dfa.isInLaguage(1110)).to.be.true;
 			expect(dfa.isInLaguage(111)).to.be.false;
 		});
+
+		it("generates DFA to accept all binary numbers that are multiple by 2", function() {
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["0", "1"],
+				transitionTable: {
+					"q1": { 0: "q1", 1: "q2"},
+					"q2": { 0: "q1", 1: "q2"}
+				},
+				initialState: "q1",
+				finalStates: ["q1"]
+			};
+			var dfa = new DfaGenerator().generate(tuples);
+			expect(dfa.isInLaguage(00)).to.be.true;
+			expect(dfa.isInLaguage(100)).to.be.true;
+			expect(dfa.isInLaguage(101)).to.be.false;
+			expect(dfa.isInLaguage(110110)).to.be.true;
+			expect(dfa.isInLaguage(111001)).to.be.false;
+		});
 	});
 
 	describe("Edge cases", function() {
