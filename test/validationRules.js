@@ -54,9 +54,9 @@ describe("Validation Rules", function() {
 		});
 	});	
 
-	describe("Trasition Table States Rule", function() { 
-		it("should tell that given trasition table have links from all given states", function() { 
-			var rule = new validationRules.TrasitionTableStatesRule();
+	describe("Transition Table States Rule", function() {
+		it("should tell that given transition table have links from all given states", function() {
+			var rule = new validationRules.TransitionTableStatesRule();
 			var tuples = {
 				states: ["q1", "q2"],
 				transitionTable: {
@@ -67,8 +67,8 @@ describe("Validation Rules", function() {
 			expect(rule.isValid(tuples)).to.be.true;
 		});
 
-		it("should tell that given trasition table does not have links from all given states", function() { 
-			var rule = new validationRules.TrasitionTableStatesRule();
+		it("should tell that given transition table does not have links from all given states", function() {
+			var rule = new validationRules.TransitionTableStatesRule();
 			var tuples = {
 				states: ["q1", "q2", "q3"],
 				transitionTable: {
@@ -80,8 +80,41 @@ describe("Validation Rules", function() {
 		});
 
 		it("should give the error message for in valid transition table states", function() {
-			var rule = new validationRules.TrasitionTableStatesRule();
-			expect(rule.errorMessage).to.equal(config.errors.trasitionTableStates);
+			var rule = new validationRules.TransitionTableStatesRule();
+			expect(rule.errorMessage).to.equal(config.errors.transitionTableStates);
+		});
+	});
+
+	describe("Transition Table Alphabets Rule", function() {
+		it("should tell that given trasition table have links for all alphabets from all states", function() { 
+			var rule = new validationRules.TransitionTableAlphabetsRule();
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["0", "1"],
+				transitionTable: {
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2", 1: "q1"}
+				}
+			};
+			expect(rule.isValid(tuples)).to.be.true;
+		});
+
+		it("should tell that given trasition table does not have links for all alphabets from all states", function() { 
+			var rule = new validationRules.TransitionTableAlphabetsRule();
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["0", "1"],
+				transitionTable: {
+					"q1": { 0: "q2", 1: "q1"},
+					"q2": { 0: "q2"}
+				}
+			};
+			expect(rule.isValid(tuples)).to.be.false;
+		});
+
+		it("should give the error message for not enough links for all alphabets", function() {
+			var rule = new validationRules.TransitionTableAlphabetsRule();
+			expect(rule.errorMessage).to.equal(config.errors.transitionTableAlphabets);
 		});
 	});
 });

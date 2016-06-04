@@ -20,27 +20,43 @@ FinalStatesRule.prototype = {
 	}
 };
 
-var TrasitionTableStatesRule = function() {
-	this.errorMessage = config.errors.trasitionTableStates
+var TransitionTableStatesRule = function() {
+	this.errorMessage = config.errors.transitionTableStates;
 };
-TrasitionTableStatesRule.prototype = {
+TransitionTableStatesRule.prototype = {
 	isValid: function(tuples) {
-		var trasitionTableStates = Object.keys(tuples.transitionTable)
-		return trasitionTableStates.containsAll(tuples.states);
+		var transitionTableStates = Object.keys(tuples.transitionTable);
+		return transitionTableStates.containsAll(tuples.states);
 	}
 };
+
+var TransitionTableAlphabetsRule = function() {
+	this.errorMessage = config.errors.transitionTableAlphabets;
+};
+TransitionTableAlphabetsRule.prototype = {
+	isValid: function(tuples) {
+		var transitionTableStates = Object.keys(tuples.transitionTable);
+		return transitionTableStates.every(function(state) {
+			var alphabets = Object.keys(tuples.transitionTable[state]);
+			return alphabets.containsAll(tuples.alphabets);
+		});
+	}
+};
+
 
 var getAllRules = function() {
 	return [
 		new InitialStateRule(),
 		new FinalStatesRule(),
-		new TrasitionTableStatesRule()
+		new TransitionTableStatesRule(),
+		new TransitionTableAlphabetsRule()
 	];
 };
 
 module.exports =  {
 	InitialStateRule: InitialStateRule,
 	FinalStatesRule: FinalStatesRule,
-	TrasitionTableStatesRule: TrasitionTableStatesRule,
+	TransitionTableStatesRule: TransitionTableStatesRule,
+	TransitionTableAlphabetsRule: TransitionTableAlphabetsRule,
 	all: getAllRules
 };
