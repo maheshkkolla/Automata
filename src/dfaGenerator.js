@@ -1,10 +1,16 @@
+var config = require("../config");
 var DfaGenerator = function() {
 }
 module.exports = DfaGenerator;
 
 DfaGenerator.prototype = {
 	generate: function(tuples) {
+		this.validate(tuples);
 		return new Dfa(tuples.states, tuples.alphabets, tuples.transitionTable, tuples.initialState, tuples.finalStates);
+	},
+
+	validate: function(tuples) {
+		if(tuples.states.indexOf(tuples.initialState) < 0) throw new Error(config.errors.initialState);
 	}
 }
 
