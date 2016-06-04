@@ -1,4 +1,6 @@
 var config = require("../config");
+var _utils = require("underscore");
+var validationRules = require("./validationRules");
 var DfaGenerator = function() {
 }
 module.exports = DfaGenerator;
@@ -11,24 +13,11 @@ DfaGenerator.prototype = {
 	},
 
 	validate: function() {
-		var self = this;
-		[this.validateInitialState, this.validateFinalStates].forEach(function(validation) {
-			validation.apply(self);
-		});
-	},
-
-	validateInitialState: function() {
 		var tuples = this.tuples;
-		if(tuples.states.indexOf(tuples.initialState) < 0) 
-			throw new Error(config.errors.initialState);
-	},
-
-	validateFinalStates: function() {
-		var tuples = this.tuples;
-		var allIn = tuples.finalStates.every(function(finalState) {
-			return(tuples.states.indexOf(finalState) > 0);
+		var validations = validationRules.all();
+		validations.forEach(function(validationRule) {
+			if(!validationRule.isValid(tuples)) throw new Error(validationRule.errorMessage);
 		});
-		if(!allIn) throw new Error(config.errors.finalState);
 	}
 }
 
