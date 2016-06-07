@@ -37,10 +37,7 @@ Dfa.prototype = {
 	},
 
 	isInLaguage: function(inputString) {
-		var self = this;
-		var lastState = inputString.split("").reduce(function(state, alphabet) {
-			return self.transitionFunction(state, alphabet);
-		}, self.initialState);	
+		var lastState = inputString.split('').reduce(this.transitionFunction.bind(this), this.initialState);	
 		return((this.finalStates.indexOf(lastState)) >= 0);
 	}
 }
@@ -85,6 +82,7 @@ Nfa.prototype = {
 		}, []);
 	}
 }
+
 
 
 
