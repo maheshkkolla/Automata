@@ -38,7 +38,7 @@ Dfa.prototype = {
 
 	isInLaguage: function(inputString) {
 		var self = this;
-		var lastState = String(inputString).split("").reduce(function(state, alphabet) {
+		var lastState = inputString.split("").reduce(function(state, alphabet) {
 			return self.transitionFunction(state, alphabet);
 		}, self.initialState);	
 		return((this.finalStates.indexOf(lastState)) >= 0);

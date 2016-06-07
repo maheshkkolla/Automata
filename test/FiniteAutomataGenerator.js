@@ -18,8 +18,8 @@ describe("Automata Generator", function() {
 					finalStates: ["q2"]
 				};
 				var dfa = new DfaGenerator().generate(tuples);
-				expect(dfa.isInLaguage(1110)).to.be.true;
-				expect(dfa.isInLaguage(111)).to.be.false;
+				expect(dfa.isInLaguage('1110')).to.be.true;
+				expect(dfa.isInLaguage('111')).to.be.false;
 			});
 
 			it("generates DFA to accept all binary numbers that are multiple by 2", function() {
@@ -34,11 +34,11 @@ describe("Automata Generator", function() {
 					finalStates: ["q1"]
 				};
 				var dfa = new DfaGenerator().generate(tuples);
-				expect(dfa.isInLaguage(00)).to.be.true;
-				expect(dfa.isInLaguage(100)).to.be.true;
-				expect(dfa.isInLaguage(101)).to.be.false;
-				expect(dfa.isInLaguage(110110)).to.be.true;
-				expect(dfa.isInLaguage(111001)).to.be.false;
+				expect(dfa.isInLaguage('00')).to.be.true;
+				expect(dfa.isInLaguage('100')).to.be.true;
+				expect(dfa.isInLaguage('101')).to.be.false;
+				expect(dfa.isInLaguage('110110')).to.be.true;
+				expect(dfa.isInLaguage('111001')).to.be.false;
 			});
 		});
 
