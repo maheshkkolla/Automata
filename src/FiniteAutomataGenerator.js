@@ -53,18 +53,22 @@ var Nfa = function(states, alphabets, transitionTable, initialState, finalStates
 
 Nfa.prototype = {
 	transitionFunction: function(state, alphabet) {
-		return(this.transitionTable[state][alphabet]);
+		return(this.transitionTable[state][alphabet]) || [];
+	},
+
+	transitionFunctionFor: function(states, alphabet) {
+		var self = this;
+		var newStates = states.map(function(state) {
+			return self.transitionFunction(state, alphabet);
+		});
+		return Array.prototype.concat.apply([], newStates);
 	},
 
 	hasString: function(inputString) {
 		var self = this;
 		var lastStates = inputString.split('').reduce(function(states, alphabet) {
 			states = states.concat(self.getEpsilonStatesFrom(states));
-			return states.reduce(function(newStates, state) {
-				var resultState = self.transitionFunction(state, alphabet);
-				if(resultState) return newStates.concat(resultState);
-				return newStates;
-			},[]);
+			return self.transitionFunctionFor(states, alphabet);
 		}, [self.initialState]);
 		if(inputString.length == 0) {
 			lastStates = [self.initialState].concat(self.getEpsilonStatesFromGiven(self.initialState));
