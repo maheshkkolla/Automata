@@ -23,6 +23,7 @@ Nfa.prototype = {
 		var self = this;
 		if(inputString.length == 0) return self.hasEmptyString();
 		var lastStates = inputString.split('').reduce(self.multipleStateTransitionFunction.bind(self), [self.initialState]);
+		lastStates = lastStates.concat(self.getEpsilonStates(lastStates));
 		return self.anyInFinalStates(lastStates);
 	},
 
@@ -34,7 +35,7 @@ Nfa.prototype = {
 	},
 
 	getEpsilonStatesFromGiven: function(state) {
-		var epsilonStates = this.transitionTable[state]['E'] || [];
+		var epsilonStates = this.transitionTable[state]['E'] || this.transitionTable[state]['e'] || [];
 		return _utils.uniq(epsilonStates.concat(this.getEpsilonStates(epsilonStates)));
 	},
 
