@@ -57,29 +57,31 @@ Nfa.prototype = {
 	},
 
 	isInLaguage: function(inputString) {
-		return this.isStringInLanguage(inputString, [this.initialState], 0);
-	},
-
-	isStringInLanguage: function(inputString, states, alphabetIndex) {
 		var self = this;
-		states = states.concat(self.getEpsilonStatesFrom(states));
-		if(inputString.length == alphabetIndex) {
-			return(_utils.difference(states, this.finalStates).length < states.length);
+		var lastStates = inputString.split('').reduce(function(states, alphabet) {
+			states = states.concat(self.getEpsilonStatesFrom(states));
+			return states.reduce(function(newStates, state) {
+				var resultState = self.transitionFunction(state, alphabet);
+				if(resultState) return newStates.concat(resultState);
+				return newStates;
+			},[]);
+		}, [self.initialState]);
+		if(inputString.length == 0) {
+			lastStates = [self.initialState].concat(self.getEpsilonStatesFromGiven(self.initialState));
 		}
-		var newIndex = alphabetIndex + 1;
-		return states.reduce(function(result, state) {
-			var newStates = self.transitionFunction(state, inputString[alphabetIndex]);
-			if(!newStates) return result || false;
-			return(result || self.isStringInLanguage(inputString, newStates, newIndex));
-		}, false);
+		return _utils.intersection(self.finalStates, lastStates).length > 0;
 	},
 
 	getEpsilonStatesFrom: function(states) {
 		var self = this;
-		return states.reduce(function(result, state) {
-			var epsilonStates = self.transitionTable[state]['E'] || [];
-			return(result.concat(epsilonStates));
+		return states.reduce(function(epsilonStates, state) {
+			return epsilonStates.concat(self.getEpsilonStatesFromGiven(state));
 		}, []);
+	},
+
+	getEpsilonStatesFromGiven: function(state) {
+		var epsilonStates = this.transitionTable[state]['E'] || [];
+		return epsilonStates.concat(this.getEpsilonStatesFrom(epsilonStates));
 	}
 }
 

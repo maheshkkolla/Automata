@@ -146,5 +146,28 @@ describe("Automata Generator", function() {
 			expect(nfa.isInLaguage('1101')).to.be.true;
 			expect(nfa.isInLaguage('10010001')).to.be.false;
 		});
+
+		it("generates Nfa for language that strings having 0's followed by 1's or 1's followed by 0's", function() {
+			var tuples = {
+				states: ["q1", "q2"],
+				alphabets: ["0", "1"],
+				transitionTable: {
+					"q1": { E: ["q2", "q4"]},
+					"q2": { 0: ["q2"], E: ["q3"]},
+					"q3": { 1: ["q3"]},
+					"q4": { 1: ["q4"], E:["q5"]},
+					"q5": { 0: ["q5"]}
+				},
+				initialState: "q1",
+				finalStates: ["q3", "q5"]
+			}
+
+			var nfa = new DfaGenerator().generateNfa(tuples);
+			expect(nfa.isInLaguage('')).to.be.true;
+			expect(nfa.isInLaguage('111100')).to.be.true;
+			expect(nfa.isInLaguage('01010')).to.be.false;
+			expect(nfa.isInLaguage('1101')).to.be.false;
+			expect(nfa.isInLaguage('0000011111')).to.be.true;
+		});
 	});
 });
