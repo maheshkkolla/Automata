@@ -1,6 +1,6 @@
 var assert = require("chai").assert;
 var expect = require("chai").expect;
-var DfaGenerator = require("../src/FiniteAutomataGenerator");
+var FiniteAutomataGenerator = require("../src/FiniteAutomataGenerator");
 var config = require("../config");
 
 describe("Automata Generator", function() {	
@@ -17,7 +17,7 @@ describe("Automata Generator", function() {
 					initialState: "q1",
 					finalStates: ["q2"]
 				};
-				var dfa = new DfaGenerator().generate(tuples);
+				var dfa = new FiniteAutomataGenerator().generateDfa(tuples);
 				expect(dfa.hasString('1110')).to.be.true;
 				expect(dfa.hasString('111')).to.be.false;
 			});
@@ -33,7 +33,7 @@ describe("Automata Generator", function() {
 					initialState: "q1",
 					finalStates: ["q1"]
 				};
-				var dfa = new DfaGenerator().generate(tuples);
+				var dfa = new FiniteAutomataGenerator().generateDfa(tuples);
 				expect(dfa.hasString('00')).to.be.true;
 				expect(dfa.hasString('100')).to.be.true;
 				expect(dfa.hasString('101')).to.be.false;
@@ -54,8 +54,8 @@ describe("Automata Generator", function() {
 					initialState: "q3",
 					finalStates: ["q2"]
 				};
-				var dfaGenerator = new DfaGenerator();
-				var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+				var finiteAutomataGenerator = new FiniteAutomataGenerator();
+				var generator = finiteAutomataGenerator.generateDfa.bind(finiteAutomataGenerator, tuples);
 				expect(generator).to.throw(config.errors.initialState);
 			});
 
@@ -70,8 +70,8 @@ describe("Automata Generator", function() {
 					initialState: "q1",
 					finalStates: ["q1", "q4"]
 				};
-				var dfaGenerator = new DfaGenerator();
-				var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+				var finiteAutomataGenerator = new FiniteAutomataGenerator();
+				var generator = finiteAutomataGenerator.generateDfa.bind(finiteAutomataGenerator, tuples);
 				expect(generator).to.throw(config.errors.finalState);
 			});
 
@@ -86,8 +86,8 @@ describe("Automata Generator", function() {
 					initialState: "q1",
 					finalStates: ["q1"]
 				};
-				var dfaGenerator = new DfaGenerator();
-				var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+				var finiteAutomataGenerator = new FiniteAutomataGenerator();
+				var generator = finiteAutomataGenerator.generateDfa.bind(finiteAutomataGenerator, tuples);
 				expect(generator).to.throw(config.errors.trasitionTableStates);
 			});
 
@@ -102,8 +102,8 @@ describe("Automata Generator", function() {
 					initialState: "q1",
 					finalStates: ["q1"]
 				};
-				var dfaGenerator = new DfaGenerator();
-				var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+				var finiteAutomataGenerator = new FiniteAutomataGenerator();
+				var generator = finiteAutomataGenerator.generateDfa.bind(finiteAutomataGenerator, tuples);
 				expect(generator).to.throw(config.errors.transitionTableAlphabets);
 			});
 
@@ -118,8 +118,8 @@ describe("Automata Generator", function() {
 					initialState: "q1",
 					finalStates: ["q1"]
 				};
-				var dfaGenerator = new DfaGenerator();
-				var generator = dfaGenerator.generate.bind(dfaGenerator, tuples);
+				var finiteAutomataGenerator = new FiniteAutomataGenerator();
+				var generator = finiteAutomataGenerator.generateDfa.bind(finiteAutomataGenerator, tuples);
 				expect(generator).to.throw(config.errors.transitionTableResultState);
 			});
 		});
@@ -140,7 +140,7 @@ describe("Automata Generator", function() {
 				finalStates: ["q4"]
 			};
 
-			var nfa = new DfaGenerator().generateNfa(tuples);
+			var nfa = new FiniteAutomataGenerator().generateNfa(tuples);
 			expect(nfa.hasString('01010')).to.be.true;
 			expect(nfa.hasString('111100')).to.be.true;
 			expect(nfa.hasString('1101')).to.be.true;
@@ -162,7 +162,7 @@ describe("Automata Generator", function() {
 				finalStates: ["q3", "q5"]
 			};
 
-			var nfa = new DfaGenerator().generateNfa(tuples);
+			var nfa = new FiniteAutomataGenerator().generateNfa(tuples);
 			expect(nfa.hasString('')).to.be.true;
 			expect(nfa.hasString('111100')).to.be.true;
 			expect(nfa.hasString('0000011111')).to.be.true;
@@ -186,7 +186,7 @@ describe("Automata Generator", function() {
 				finalStates: ["q1", "q3", "q6"]
 			};
 
-			var nfa = new DfaGenerator().generateNfa(tuples);
+			var nfa = new FiniteAutomataGenerator().generateNfa(tuples);
 			expect(nfa.hasString('')).to.be.true;
 			expect(nfa.hasString('11')).to.be.true;
 			expect(nfa.hasString('01')).to.be.true;

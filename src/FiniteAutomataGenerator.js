@@ -3,11 +3,11 @@ var Dfa = require("./Dfa");
 var Nfa = require("./Nfa");
 var validationRules = require("./validationRules");
 
-var DfaGenerator = function() {
+var FiniteAutomataGenerator = function() {
 }
 
-DfaGenerator.prototype = {
-	generate: function(tuples) {
+FiniteAutomataGenerator.prototype = {
+	generateDfa: function(tuples) {
 		this.validate(tuples);
 		return new Dfa(tuples.states, tuples.alphabets, tuples.transitionTable, tuples.initialState, tuples.finalStates);
 	},
@@ -24,4 +24,4 @@ DfaGenerator.prototype = {
 	}
 };
 
-module.exports = DfaGenerator;
+module.exports = FiniteAutomataGenerator;
