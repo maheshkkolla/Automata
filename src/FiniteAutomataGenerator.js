@@ -56,24 +56,18 @@ Nfa.prototype = {
 		return(this.transitionTable[state][alphabet]) || [];
 	},
 
-	transitionFunctionFor: function(states, alphabet) {
+	multipleStateTransitionFunction: function(states, alphabet) {
 		var self = this;
-		var newStates = states.map(function(state) {
-			return self.transitionFunction(state, alphabet);
-		});
+		states = states.concat(self.getEpsilonStatesFrom(states));
+		var newStates = states.map(self.transitionFunction.partial({2:alphabet}, self));
 		return Array.prototype.concat.apply([], newStates);
 	},
 
 	hasString: function(inputString) {
 		var self = this;
-		var lastStates = inputString.split('').reduce(function(states, alphabet) {
-			states = states.concat(self.getEpsilonStatesFrom(states));
-			return self.transitionFunctionFor(states, alphabet);
-		}, [self.initialState]);
-		if(inputString.length == 0) {
-			lastStates = [self.initialState].concat(self.getEpsilonStatesFromGiven(self.initialState));
-		}
-		return _utils.intersection(self.finalStates, lastStates).length > 0;
+		if(inputString.length == 0) return self.hasEmptyString();
+		var lastStates = inputString.split('').reduce(self.multipleStateTransitionFunction.bind(self), [self.initialState]);
+		return self.anyInFinalStates(lastStates);
 	},
 
 	getEpsilonStatesFrom: function(states) {
@@ -86,6 +80,15 @@ Nfa.prototype = {
 	getEpsilonStatesFromGiven: function(state) {
 		var epsilonStates = this.transitionTable[state]['E'] || [];
 		return epsilonStates.concat(this.getEpsilonStatesFrom(epsilonStates));
+	},
+
+	anyInFinalStates: function(states) {
+		return _utils.intersection(this.finalStates, states).length > 0;
+	},
+
+	hasEmptyString: function() {
+		var lastStates = [this.initialState].concat(this.getEpsilonStatesFromGiven(this.initialState));
+		return this.anyInFinalStates(lastStates);
 	}
 }
 
