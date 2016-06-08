@@ -165,9 +165,9 @@ describe("Automata Generator", function() {
 			var nfa = new DfaGenerator().generateNfa(tuples);
 			expect(nfa.hasString('')).to.be.true;
 			expect(nfa.hasString('111100')).to.be.true;
+			expect(nfa.hasString('0000011111')).to.be.true;
 			expect(nfa.hasString('01010')).to.be.false;
 			expect(nfa.hasString('1101')).to.be.false;
-			expect(nfa.hasString('0000011111')).to.be.true;
 		});
 
 		it("generates Nfa for languge that has strings length divisible by 2 or 3", function() {
