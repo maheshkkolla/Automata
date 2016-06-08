@@ -1,4 +1,5 @@
 var config = require("../config");
+var Dfa = require("./Dfa");
 var _utils = require("underscore");
 var validationRules = require("./validationRules");
 var DfaGenerator = function() {
@@ -21,27 +22,7 @@ DfaGenerator.prototype = {
 	generateNfa: function(tuples) {
 		return new Nfa(tuples.states, tuples.alphabets, tuples.transitionTable, tuples.initialState, tuples.finalStates);
 	}
-}
-
-var Dfa = function(states, alphabets, transitionTable, initialState, finalStates) {
-	this.states = states;
-	this.alphabets = alphabets;
-	this.transitionTable = transitionTable
-	this.initialState = initialState;
-	this.finalStates = finalStates;
 };
-
-Dfa.prototype = {
-	transitionFunction: function(state, alphabet) {
-		return(this.transitionTable[state][alphabet]);
-	},
-
-	hasString: function(inputString) {
-		var lastState = inputString.split('').reduce(this.transitionFunction.bind(this), this.initialState);	
-		return((this.finalStates.indexOf(lastState)) >= 0);
-	}
-}
-
 
 var Nfa = function(states, alphabets, transitionTable, initialState, finalStates) {
 	this.states = states;
