@@ -36,7 +36,7 @@ Dfa.prototype = {
 		return(this.transitionTable[state][alphabet]);
 	},
 
-	isInLaguage: function(inputString) {
+	hasString: function(inputString) {
 		var lastState = inputString.split('').reduce(this.transitionFunction.bind(this), this.initialState);	
 		return((this.finalStates.indexOf(lastState)) >= 0);
 	}
@@ -56,7 +56,7 @@ Nfa.prototype = {
 		return(this.transitionTable[state][alphabet]);
 	},
 
-	isInLaguage: function(inputString) {
+	hasString: function(inputString) {
 		var self = this;
 		var lastStates = inputString.split('').reduce(function(states, alphabet) {
 			states = states.concat(self.getEpsilonStatesFrom(states));

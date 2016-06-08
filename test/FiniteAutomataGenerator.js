@@ -18,8 +18,8 @@ describe("Automata Generator", function() {
 					finalStates: ["q2"]
 				};
 				var dfa = new DfaGenerator().generate(tuples);
-				expect(dfa.isInLaguage('1110')).to.be.true;
-				expect(dfa.isInLaguage('111')).to.be.false;
+				expect(dfa.hasString('1110')).to.be.true;
+				expect(dfa.hasString('111')).to.be.false;
 			});
 
 			it("generates DFA to accept all binary numbers that are multiple by 2", function() {
@@ -34,11 +34,11 @@ describe("Automata Generator", function() {
 					finalStates: ["q1"]
 				};
 				var dfa = new DfaGenerator().generate(tuples);
-				expect(dfa.isInLaguage('00')).to.be.true;
-				expect(dfa.isInLaguage('100')).to.be.true;
-				expect(dfa.isInLaguage('101')).to.be.false;
-				expect(dfa.isInLaguage('110110')).to.be.true;
-				expect(dfa.isInLaguage('111001')).to.be.false;
+				expect(dfa.hasString('00')).to.be.true;
+				expect(dfa.hasString('100')).to.be.true;
+				expect(dfa.hasString('101')).to.be.false;
+				expect(dfa.hasString('110110')).to.be.true;
+				expect(dfa.hasString('111001')).to.be.false;
 			});
 		});
 
@@ -141,10 +141,10 @@ describe("Automata Generator", function() {
 			}
 
 			var nfa = new DfaGenerator().generateNfa(tuples);
-			expect(nfa.isInLaguage('01010')).to.be.true;
-			expect(nfa.isInLaguage('111100')).to.be.true;
-			expect(nfa.isInLaguage('1101')).to.be.true;
-			expect(nfa.isInLaguage('10010001')).to.be.false;
+			expect(nfa.hasString('01010')).to.be.true;
+			expect(nfa.hasString('111100')).to.be.true;
+			expect(nfa.hasString('1101')).to.be.true;
+			expect(nfa.hasString('10010001')).to.be.false;
 		});
 
 		it("generates Nfa for language that strings having 0's followed by 1's or 1's followed by 0's", function() {
@@ -163,11 +163,11 @@ describe("Automata Generator", function() {
 			}
 
 			var nfa = new DfaGenerator().generateNfa(tuples);
-			expect(nfa.isInLaguage('')).to.be.true;
-			expect(nfa.isInLaguage('111100')).to.be.true;
-			expect(nfa.isInLaguage('01010')).to.be.false;
-			expect(nfa.isInLaguage('1101')).to.be.false;
-			expect(nfa.isInLaguage('0000011111')).to.be.true;
+			expect(nfa.hasString('')).to.be.true;
+			expect(nfa.hasString('111100')).to.be.true;
+			expect(nfa.hasString('01010')).to.be.false;
+			expect(nfa.hasString('1101')).to.be.false;
+			expect(nfa.hasString('0000011111')).to.be.true;
 		});
 	});
 });
