@@ -46,14 +46,14 @@ describe("Nfa", function() {
 	});
 
 	it("getEpsilonStates gives the all result states of epsilon transaction from the given states", function() {
-		expect(nfa.getEpsilonStates(["q1"])).to.eql(["q2", "q4", "q3", "q5"]);
-		expect(nfa.getEpsilonStates(["q1", "q2"])).to.eql(["q2", "q4", "q3", "q5"]);
-		expect(nfa.getEpsilonStates(["q2", "q3"])).to.eql(["q3"]);
-		expect(nfa.getEpsilonStates(["q2", "q4"])).to.eql(["q3", "q5"]);
+		expect(nfa.getEpsilonStates(["q1"])).to.eql(["q1", "q2", "q4", "q3", "q5"]);
+		expect(nfa.getEpsilonStates(["q1", "q2"])).to.eql(["q1", "q2", "q4", "q3", "q5"]);
+		expect(nfa.getEpsilonStates(["q2", "q3"])).to.eql(["q2", "q3"]);
+		expect(nfa.getEpsilonStates(["q2", "q4"])).to.eql(["q2", "q4", "q3", "q5"]);
 	});
 
 	it("getEpsilonStatesFromGiven gives the result states of epsilon transaction from a given single state", function() {
-		expect(nfa.getEpsilonStatesFromGiven("q1")).to.eql(["q2", "q4", "q3", "q5"]);
+		expect(nfa.getEpsilonStatesFromGiven("q1")).to.eql(["q2", "q4"]);
 		expect(nfa.getEpsilonStatesFromGiven("q2")).to.eql(["q3"]);
 		expect(nfa.getEpsilonStatesFromGiven("q3")).to.eql([]);
 		expect(nfa.getEpsilonStatesFromGiven("q4")).to.eql(["q5"]);
