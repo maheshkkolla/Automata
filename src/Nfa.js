@@ -9,6 +9,7 @@ var Nfa = function(states, alphabets, transitionTable, initialState, finalStates
 
 Nfa.prototype = {
 	transitionFunction: function(state, alphabet) {
+		if(!this.transitionTable[state]) return [];
 		return(this.transitionTable[state][alphabet]) || [];
 	},
 
@@ -35,6 +36,7 @@ Nfa.prototype = {
 	},
 
 	getEpsilonStatesFromGiven: function(state) {
+		if(!this.transitionTable[state]) return [];
 		var epsilonStates = this.transitionTable[state]['E'] || this.transitionTable[state]['e'] || [];
 		return _utils.uniq(epsilonStates.concat(this.getEpsilonStates(epsilonStates)));
 	},
